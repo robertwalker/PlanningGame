@@ -9,5 +9,10 @@ import Foundation
 
 struct GameRound {
     var storyName: String
-    var pointValue: FaceValue = .question
+    var pointValue: FaceValue
+    
+    init(storyName: String) {
+        self.storyName = storyName
+        self.pointValue = .question
+    }
 }

@@ -12,6 +12,7 @@ enum GameRoundError: Error {
 }
 
 enum PlayerError: Error {
+    case gameMasterNameMustNotBeBlank
     case playerNameMustNotBeBlank
 }
 
@@ -45,6 +46,9 @@ struct GameSession {
     mutating func startRound(round: GameRound) throws {
         guard hasValidStoryName(round: round) else {
             throw GameRoundError.storyNameMustNotBeBlank
+        }
+        guard hasValidPlayerName(player: gameMaster) else {
+            throw PlayerError.gameMasterNameMustNotBeBlank
         }
         
         gameMaster.hand = dealPointCards()
