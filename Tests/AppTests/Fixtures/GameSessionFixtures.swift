@@ -1,9 +1,3 @@
-//
-//  GameSessionFixtures.swift
-//  
-//
-//  Created by Robert Walker on 12/5/20.
-//
 @testable import App
 
 func makeOnePlayerGameSession(pointScale: PointScale) -> GameSession {

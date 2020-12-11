@@ -1,9 +1,3 @@
-//
-//  PlayingCardFixtures.swift
-//  
-//
-//  Created by Robert Walker on 12/4/20.
-//
 @testable import App
 
 let playerHandLinear = [
