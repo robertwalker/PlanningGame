@@ -25,14 +25,13 @@ enum PointScale {
 struct GameSession {
     var gameMaster: Player
     let pointScale: PointScale
-    var gameBoard: GameBoard
+    var cardsInPlay: [PlayingCard] = []
     var players: [Player] = []
     var rounds: [GameRound] = []
     
     init(gameMaster: Player, pointScale: PointScale) {
         self.gameMaster = gameMaster
         self.pointScale = pointScale
-        self.gameBoard = GameBoard()
     }
 
     mutating func append(player: Player) throws {
