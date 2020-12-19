@@ -1,5 +1,5 @@
 //
-//  GameRound.swift
+//  Round.swift
 //  
 //
 //  Created by Robert Walker on 12/1/20.
@@ -7,11 +7,12 @@
 
 import Foundation
 
-struct GameRound {
+struct Round {
     var storyName: String
     var pointValue: FaceValue
     
-    init(storyName: String) {
+    init?(storyName: String) {
+        if storyName.trimmingCharacters(in: .whitespacesAndNewlines) == "" { return nil }
         self.storyName = storyName
         self.pointValue = .question
     }

@@ -1,5 +1,5 @@
 //
-//  GameSesison.swift
+//  Game.swift
 //  
 //
 //  Created by Robert Walker on 11/23/20.
@@ -7,49 +7,30 @@
 
 import Foundation
 
-enum GameRoundError: Error {
-    case storyNameMustNotBeBlank
-}
-
-enum PlayerError: Error {
-    case gameMasterNameMustNotBeBlank
-    case playerNameMustNotBeBlank
-}
-
 enum PointScale {
     case powersOfTwo
     case linear
     case fibonacci
 }
 
-struct GameSession {
+struct Game {
     var gameMaster: Player
     let pointScale: PointScale
-    var cardsInPlay: [PlayingCard] = []
     var players: [Player] = []
-    var rounds: [GameRound] = []
-    
+    var rounds: [Round] = []
+    var cardsInPlay: [PlayingCard] = []
+    var currentRound: Round? { rounds.last }
+
     init(gameMaster: Player, pointScale: PointScale) {
         self.gameMaster = gameMaster
         self.pointScale = pointScale
     }
 
-    mutating func append(player: Player) throws {
-        guard hasValidPlayerName(player: player) else {
-            throw PlayerError.playerNameMustNotBeBlank
-        }
-        
+    mutating func add(player: Player) throws {
         players.append(player)
     }
     
-    mutating func startRound(round: GameRound) throws {
-        guard hasValidStoryName(round: round) else {
-            throw GameRoundError.storyNameMustNotBeBlank
-        }
-        guard hasValidPlayerName(player: gameMaster) else {
-            throw PlayerError.gameMasterNameMustNotBeBlank
-        }
-        
+    mutating func startRound(round: Round) {
         gameMaster.hand = dealPointCards()
         players = players.map({ (player) -> Player in
             var playerCopy = player
@@ -85,14 +66,4 @@ struct GameSession {
         hand.append(PlayingCard(faceValue: .question))
         return hand
     }
-}
-
-// MARK: - Utility Functions
-
-fileprivate func hasValidPlayerName(player: Player) -> Bool {
-    return player.name.trimmingCharacters(in: .whitespacesAndNewlines) != ""
-}
-
-fileprivate func hasValidStoryName(round: GameRound) -> Bool {
-    return round.storyName.trimmingCharacters(in: .whitespacesAndNewlines) != ""
 }

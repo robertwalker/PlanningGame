@@ -10,4 +10,9 @@ import Foundation
 struct Player {
     let name: String
     var hand: [PlayingCard] = []
+    
+    init?(name: String) {
+        if name.trimmingCharacters(in: .whitespacesAndNewlines) == "" { return nil }
+        self.name = name
+    }
 }
