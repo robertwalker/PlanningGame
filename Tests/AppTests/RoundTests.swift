@@ -41,4 +41,35 @@ final class RoundTests: XCTestCase {
         // Then
         XCTAssertTrue(round.hasEnded)
     }
+    
+    // MARK: Describe Equatable Conformance
+    
+    func testShouldEqualWhenAllPropertiesAreEqual() throws {
+        // Given
+        let roundOne = try XCTUnwrap(Round(storyName: "Round One"))
+        let roundOneCopy = try XCTUnwrap(Round(storyName: "Round One"))
+        
+        // Then
+        XCTAssertEqual(roundOne, roundOneCopy)
+    }
+    
+    func testShouldBeEqualWhenStoryNamesAreTheSame() throws {
+        // Given
+        var roundOne = try XCTUnwrap(Round(storyName: "Round One"))
+        var roundOneCopy = try XCTUnwrap(Round(storyName: "Round One"))
+        roundOne.pointValue = .one
+        roundOneCopy.pointValue = .two
+        
+        // Then
+        XCTAssertEqual(roundOne, roundOneCopy)
+    }
+    
+    func testShouldNotBeEqualWhenStoryNamesAreDifferent() throws {
+        // Given
+        let roundOne = try XCTUnwrap(Round(storyName: "Round One"))
+        let roundTwo = try XCTUnwrap(Round(storyName: "Round Two"))
+        
+        // Then
+        XCTAssertNotEqual(roundOne, roundTwo)
+    }
 }

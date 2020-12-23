@@ -18,13 +18,13 @@ func makeTwoPlayerGame(pointScale: PointScale) -> Game {
 func makeOnePlayerGameInRoundOne(pointScale: PointScale) -> Game {
     var game = makeOnePlayerGame(pointScale: pointScale)
     let roundOne = Round(storyName: "Story One")!
-    game.startRound(round: roundOne)
+    try! game.startRound(round: roundOne)
     return game
 }
 
 func makeTwoPlayerGameInRoundOne(pointScale: PointScale) -> Game {
     var game = makeTwoPlayerGame(pointScale: pointScale)
     let roundOne = Round(storyName: "Story One")!
-    game.startRound(round: roundOne)
+    try! game.startRound(round: roundOne)
     return game
 }
