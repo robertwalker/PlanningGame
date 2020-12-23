@@ -15,36 +15,11 @@ enum FaceValue: Int {
     case four = 4
     case five = 5
     case eight = 8
-    
-    var imageName: String {
-        switch self {
-        case .question:
-            return "question_card.png"
-        case .one:
-            return "one_card.png"
-        case .two:
-            return "two_card.png"
-        case .three:
-            return "three_card.png"
-        case .four:
-            return "four_card.png"
-        case .five:
-            return "five_card.png"
-        case .eight:
-            return "eight_card.png"
-        }
-    }
 }
 
 struct PlayingCard {
     let faceValue: FaceValue
     var isFaceDown = false
-    var imageName: String {
-        if isFaceDown {
-            return "card_back.png"
-        }
-        return faceValue.imageName
-    }
 }
 
 extension PlayingCard: Equatable {
