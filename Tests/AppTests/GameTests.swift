@@ -77,8 +77,8 @@ final class GameTests: XCTestCase {
         game.startRound(round: round)
         
         // Then
-        XCTAssertEqual(game.currentRound?.storyName, "Test Story")
-        XCTAssertEqual(game.currentRound?.pointValue, .question)
+        XCTAssertEqual(game.lastRound?.storyName, "Test Story")
+        XCTAssertEqual(game.lastRound?.pointValue, .question)
         XCTAssertEqual(game.players[0].hand, playerHandLinear)
     }
 
@@ -91,8 +91,8 @@ final class GameTests: XCTestCase {
         game.startRound(round: round)
         
         // Then
-        XCTAssertEqual(game.currentRound?.storyName, "Test Story")
-        XCTAssertEqual(game.currentRound?.pointValue, .question)
+        XCTAssertEqual(game.lastRound?.storyName, "Test Story")
+        XCTAssertEqual(game.lastRound?.pointValue, .question)
         XCTAssertEqual(game.players.first?.hand, playerHandPowersOfTwo)
     }
     
@@ -105,8 +105,8 @@ final class GameTests: XCTestCase {
         game.startRound(round: round)
         
         // Then
-        XCTAssertEqual(game.currentRound?.storyName, "Test Story")
-        XCTAssertEqual(game.currentRound?.pointValue, .question)
+        XCTAssertEqual(game.lastRound?.storyName, "Test Story")
+        XCTAssertEqual(game.lastRound?.pointValue, .question)
         XCTAssertEqual(game.players.first?.hand, playerHandFibonacci)
     }
 
@@ -201,5 +201,38 @@ final class GameTests: XCTestCase {
         
         // Then
         XCTAssertThrowsError(try game.playACard(player: playerTwo, card: playingCard))
+    }
+    
+    // MARK: - Describe Ending a Round
+    
+    func testShouldEndCurrentRoundWhenAllPlayersHavePlayed() throws {
+        // Given
+        var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
+        let playerOne = try XCTUnwrap(game.players.first)
+        let playerTwo = try XCTUnwrap(game.players[1])
+        let playerOneCard = try XCTUnwrap(playerOne.hand.first)
+        let playerTwoCard = try XCTUnwrap(playerTwo.hand.first)
+
+        // When
+        try game.playACard(player: playerOne, card: playerOneCard)
+        try game.playACard(player: playerTwo, card: playerTwoCard)
+        
+        // Then
+        let currentRound = try XCTUnwrap(game.lastRound)
+        XCTAssertTrue(currentRound.hasEnded)
+    }
+
+    func testShouldNotEndCurrentRoundSomePlayersHaveNotPlayed() throws {
+        // Given
+        var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
+        let playerOne = try XCTUnwrap(game.players.first)
+        let playerOneCard = try XCTUnwrap(playerOne.hand.first)
+
+        // When
+        try game.playACard(player: playerOne, card: playerOneCard)
+        
+        // Then
+        let currentRound = try XCTUnwrap(game.lastRound)
+        XCTAssertFalse(currentRound.hasEnded)
     }
 }

@@ -24,8 +24,12 @@ struct Game {
     let pointScale: PointScale
     var players = [Player]()
     var rounds = [Round]()
-    var playerCards = [PlayerCard]()
-    var currentRound: Round? { rounds.last }
+    var playerCards = [PlayerCard]() {
+        didSet {
+            endRoundIfLastPlay()
+        }
+    }
+    var lastRound: Round? { rounds.last }
 
     init(gameMaster: Player, pointScale: PointScale) {
         self.gameMaster = gameMaster
@@ -109,5 +113,16 @@ struct Game {
         } else {
             playerCards.append(playerCard)
         }
+    }
+    
+    private mutating func endRoundIfLastPlay() {
+        guard playerCards.count == players.count else {
+            return
+        }
+        rounds = rounds.map({ (round) -> Round in
+            var localRound = round
+            localRound.hasEnded = true
+            return localRound
+        })
     }
 }
