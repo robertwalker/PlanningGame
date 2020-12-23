@@ -7,6 +7,12 @@
 
 import Foundation
 
+enum GameError: Error {
+    case playerAlreadyAdded
+    case playerNotFound
+    case player
+}
+
 enum PointScale {
     case powersOfTwo
     case linear
@@ -16,9 +22,9 @@ enum PointScale {
 struct Game {
     var gameMaster: Player
     let pointScale: PointScale
-    var players: [Player] = []
-    var rounds: [Round] = []
-    var cardsInPlay: [PlayingCard] = []
+    var players = [Player]()
+    var rounds = [Round]()
+    var playerCards = [PlayerCard]()
     var currentRound: Round? { rounds.last }
 
     init(gameMaster: Player, pointScale: PointScale) {
@@ -26,7 +32,15 @@ struct Game {
         self.pointScale = pointScale
     }
 
+    func findPlayerCard(playerCard: PlayerCard) -> PlayerCard? {
+        return playerCards.first { $0 == playerCard }
+    }
+
     mutating func add(player: Player) throws {
+        let activePlayer = self.players.first { $0 == player }
+        guard activePlayer == nil else {
+            throw GameError.playerAlreadyAdded
+        }
         players.append(player)
     }
     
@@ -38,6 +52,27 @@ struct Game {
             return playerCopy
         })
         rounds.append(round)
+    }
+    
+    mutating func playACard(player localPlayer: Player, card: PlayingCard) throws {
+        var playedCard = card
+        let possiblePlayer = self.players.first { $0 == localPlayer }
+        guard let foundPlayer = possiblePlayer else {
+            throw GameError.playerNotFound
+        }
+
+        players = players.map({ (player) -> Player in
+            guard player == foundPlayer else {
+                return player
+            }
+            
+            var playerCopy = player
+            playedCard.isFaceDown = true
+            playerCopy.hand = player.hand.filter({ $0 != playedCard })
+            return playerCopy
+        })
+
+        appendOrReplacePlayerCard(with: PlayerCard(player: foundPlayer, playingCard: playedCard))
     }
 
     // MARK: - Private Methods
@@ -65,5 +100,14 @@ struct Game {
         var hand = dealPointCards()
         hand.append(PlayingCard(faceValue: .question))
         return hand
+    }
+    
+    private mutating func appendOrReplacePlayerCard(with playerCard: PlayerCard) {
+        let foundCard = playerCards.first { $0.player == playerCard.player }
+        if let _ = foundCard {
+            playerCards = playerCards.map({ $0.player == playerCard.player ? playerCard : $0 })
+        } else {
+            playerCards.append(playerCard)
+        }
     }
 }

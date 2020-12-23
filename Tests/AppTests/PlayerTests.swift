@@ -20,4 +20,37 @@ final class PlayerTests: XCTestCase {
         // Then
         XCTAssertNil(player)
     }
+    
+    // MARK: - Describe Equatable Conformance
+    
+    func testShouldBeEqualWhenNamesMatch() throws {
+        // Given
+        let playerOne = try XCTUnwrap(Player(name: "Same Name"))
+        let playerTwo = try XCTUnwrap(Player(name: "Same Name"))
+        
+        // Then
+        XCTAssertTrue(playerOne == playerTwo)
+    }
+    
+    func testShouldBeEqualWhenNamesMatchWithDifferentHands() throws {
+        // Given
+        var playerOne = try XCTUnwrap(Player(name: "Same Name"))
+        var playerTwo = try XCTUnwrap(Player(name: "Same Name"))
+
+        // When
+        playerOne.hand = [PlayingCard(faceValue: .one)]
+        playerTwo.hand = [PlayingCard(faceValue: .one), PlayingCard(faceValue: .two)]
+        
+        // Then
+        XCTAssertTrue(playerOne == playerTwo)
+    }
+    
+    func testShoudNotBeEqualWhenNamesAreDifferent() throws {
+        // Given
+        let playerOne = try XCTUnwrap(Player(name: "Player One"))
+        let playerTwo = try XCTUnwrap(Player(name: "Player Two"))
+        
+        // Then
+        XCTAssertFalse(playerOne == playerTwo)
+    }
 }

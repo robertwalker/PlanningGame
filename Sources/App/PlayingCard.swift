@@ -36,7 +36,7 @@ enum FaceValue: Int {
     }
 }
 
-struct PlayingCard: Equatable {
+struct PlayingCard {
     let faceValue: FaceValue
     var isFaceDown = false
     var imageName: String {
@@ -44,5 +44,11 @@ struct PlayingCard: Equatable {
             return "card_back.png"
         }
         return faceValue.imageName
+    }
+}
+
+extension PlayingCard: Equatable {
+    static func ==(lhs: PlayingCard, rhs: PlayingCard) -> Bool {
+        return lhs.faceValue == rhs.faceValue
     }
 }

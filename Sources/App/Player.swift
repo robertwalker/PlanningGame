@@ -9,10 +9,16 @@ import Foundation
 
 struct Player {
     let name: String
-    var hand: [PlayingCard] = []
+    var hand = [PlayingCard]()
     
     init?(name: String) {
         if name.trimmingCharacters(in: .whitespacesAndNewlines) == "" { return nil }
         self.name = name
+    }
+}
+
+extension Player: Equatable {
+    static func ==(lhs: Player, rhs: Player) -> Bool {
+        return lhs.name == rhs.name
     }
 }

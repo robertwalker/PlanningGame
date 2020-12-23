@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Round {
+struct Round: Equatable {
     var storyName: String
     var pointValue: FaceValue
     
