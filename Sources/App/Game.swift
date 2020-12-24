@@ -47,7 +47,7 @@ struct Game {
         return rounds.first { $0 == round }
     }
 
-    mutating func add(player: Player) throws {
+    mutating func addPlayer(_ player: Player) throws {
         let activePlayer = self.players.first { $0 == player }
         guard activePlayer == nil else {
             throw GameError.playerAlreadyAdded

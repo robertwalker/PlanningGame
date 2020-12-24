@@ -47,7 +47,7 @@ final class GameTests: XCTestCase {
         let playerOne = try XCTUnwrap(Player(name: "Player One"))
 
         // When
-        try! game.add(player: playerOne)
+        try! game.addPlayer(playerOne)
         
         // Then
         XCTAssertEqual(game.players.count, 1)
@@ -60,9 +60,9 @@ final class GameTests: XCTestCase {
         let playerTwo = try XCTUnwrap(Player(name: "Player Two"))
 
         // When/Then
-        XCTAssertNoThrow(try game.add(player: playerOne))
-        XCTAssertNoThrow(try game.add(player: playerTwo))
-        XCTAssertThrowsError(try game.add(player: playerOne))
+        XCTAssertNoThrow(try game.addPlayer(playerOne))
+        XCTAssertNoThrow(try game.addPlayer(playerTwo))
+        XCTAssertThrowsError(try game.addPlayer(playerOne))
         XCTAssertEqual(game.players.count, 2)
     }
     
