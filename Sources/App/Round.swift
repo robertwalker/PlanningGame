@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Round: Equatable {
+struct Round {
     var storyName: String
     var pointValue: FaceValue
     var hasEnded = false
@@ -16,5 +16,11 @@ struct Round: Equatable {
         if storyName.trimmingCharacters(in: .whitespacesAndNewlines) == "" { return nil }
         self.storyName = storyName
         self.pointValue = .question
+    }
+}
+
+extension Round: Equatable {
+    static func ==(lhs: Round, rhs: Round) -> Bool {
+        return lhs.storyName == rhs.storyName
     }
 }

@@ -8,9 +8,12 @@
 import Foundation
 
 enum GameError: Error {
+    case lastRoundHasNotEnded
+    case lastRoundNotFound
     case playerAlreadyAdded
     case playerNotFound
-    case player
+    case roundMustHaveUniqueStoryName
+    case roundMustBeScoredBeforeStartingNextRound
 }
 
 enum PointScale {
@@ -36,11 +39,15 @@ struct Game {
         self.pointScale = pointScale
     }
 
-    func findPlayerCard(playerCard: PlayerCard) -> PlayerCard? {
-        return playerCards.first { $0 == playerCard }
+    func findPlayerCard(_ card: PlayerCard) -> PlayerCard? {
+        return playerCards.first { $0 == card }
+    }
+    
+    func findRound(_ round: Round) -> Round? {
+        return rounds.first { $0 == round }
     }
 
-    mutating func add(player: Player) throws {
+    mutating func addPlayer(_ player: Player) throws {
         let activePlayer = self.players.first { $0 == player }
         guard activePlayer == nil else {
             throw GameError.playerAlreadyAdded
@@ -48,7 +55,15 @@ struct Game {
         players.append(player)
     }
     
-    mutating func startRound(round: Round) {
+    mutating func startRound(round: Round) throws {
+        let possibleRound = findRound(round)
+        guard possibleRound == nil else {
+            throw GameError.roundMustHaveUniqueStoryName
+        }
+        guard lastRound?.pointValue != .question else {
+            throw GameError.roundMustBeScoredBeforeStartingNextRound
+        }
+
         gameMaster.hand = dealPointCards()
         players = players.map({ (player) -> Player in
             var playerCopy = player
@@ -77,6 +92,18 @@ struct Game {
         })
 
         appendOrReplacePlayerCard(with: PlayerCard(player: foundPlayer, playingCard: playedCard))
+    }
+    
+    mutating func scoreRound(card: PlayingCard) throws {
+        guard var lastRound = lastRound else {
+            throw GameError.lastRoundNotFound
+        }
+        guard lastRound.hasEnded else {
+            throw GameError.lastRoundHasNotEnded
+        }
+        
+        lastRound.pointValue = card.faceValue
+        rounds[rounds.count - 1] = lastRound
     }
 
     // MARK: - Private Methods
