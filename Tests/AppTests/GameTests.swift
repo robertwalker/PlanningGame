@@ -267,7 +267,7 @@ final class GameTests: XCTestCase {
     
     // MARK: - Describe Scoring a Round
     
-    func testShouldAppendAScoreToScoreboard() throws {
+    func testShouldScoreTheLastRound() throws {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
         let playerOne = try XCTUnwrap(game.players.first)
@@ -283,5 +283,23 @@ final class GameTests: XCTestCase {
         let scoredRound = try XCTUnwrap(game.findRound(lastRound))
         XCTAssertEqual(scoredRound, lastRound)
         XCTAssertEqual(scoredRound.pointValue, scoreCard.faceValue)
+    }
+
+    func testShouldNotBeScorableWhenNoRoundHasStarted() throws {
+        // Given
+        var game = makeOnePlayerGame(pointScale: .linear)
+        let scoreCard = PlayingCard(faceValue: .one)
+        
+        // Then
+        XCTAssertThrowsError(try game.scoreRound(card: scoreCard))
+    }
+
+    func testShouldNotBeScorableUntilLastRoundHasEnded() throws {
+        // Given
+        var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
+        let scoreCard = try XCTUnwrap(game.gameMaster.hand.first)
+
+        // Then
+        XCTAssertThrowsError(try game.scoreRound(card: scoreCard))
     }
 }
