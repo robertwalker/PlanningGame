@@ -25,8 +25,8 @@ final class PlayerTests: XCTestCase {
     
     func testShouldBeEqualWhenNamesMatch() throws {
         // Given
-        let playerOne = try XCTUnwrap(Player(name: "Same Name"))
-        let playerTwo = try XCTUnwrap(Player(name: "Same Name"))
+        let playerOne = Player(name: "Same Name")
+        let playerTwo = Player(name: "Same Name")
         
         // Then
         XCTAssertTrue(playerOne == playerTwo)
@@ -34,8 +34,8 @@ final class PlayerTests: XCTestCase {
     
     func testShouldBeEqualWhenNamesMatchWithDifferentHands() throws {
         // Given
-        var playerOne = try XCTUnwrap(Player(name: "Same Name"))
-        var playerTwo = try XCTUnwrap(Player(name: "Same Name"))
+        var playerOne = Player(name: "Same Name")
+        var playerTwo = Player(name: "Same Name")
 
         // When
         playerOne.hand = [PlayingCard(faceValue: .one)]
@@ -47,8 +47,8 @@ final class PlayerTests: XCTestCase {
     
     func testShoudNotBeEqualWhenNamesAreDifferent() throws {
         // Given
-        let playerOne = try XCTUnwrap(Player(name: "Player One"))
-        let playerTwo = try XCTUnwrap(Player(name: "Player Two"))
+        let playerOne = Player(name: "Player One")
+        let playerTwo = Player(name: "Player Two")
         
         // Then
         XCTAssertFalse(playerOne == playerTwo)

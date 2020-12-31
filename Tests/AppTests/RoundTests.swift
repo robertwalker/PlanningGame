@@ -15,7 +15,7 @@ final class RoundTests: XCTestCase {
     
     func testShouldNotBeEnded() throws {
         // When
-        let round = try XCTUnwrap(Round(storyName: "Round One"))
+        let round = Round(storyName: "Round One")
         
         // Then
         XCTAssertFalse(round.hasEnded)
@@ -36,7 +36,7 @@ final class RoundTests: XCTestCase {
     
     func testShouldEndTheRound() throws {
         // Given
-        var round = try XCTUnwrap(Round(storyName: "Round One"))
+        var round = Round(storyName: "Round One")
         
         // When
         round.hasEnded = true
@@ -49,8 +49,8 @@ final class RoundTests: XCTestCase {
     
     func testShouldEqualWhenAllPropertiesAreEqual() throws {
         // Given
-        let roundOne = try XCTUnwrap(Round(storyName: "Round One"))
-        let roundOneCopy = try XCTUnwrap(Round(storyName: "Round One"))
+        let roundOne = Round(storyName: "Round One")
+        let roundOneCopy = Round(storyName: "Round One")
         
         // Then
         XCTAssertEqual(roundOne, roundOneCopy)
@@ -58,8 +58,8 @@ final class RoundTests: XCTestCase {
     
     func testShouldBeEqualWhenStoryNamesAreTheSame() throws {
         // Given
-        var roundOne = try XCTUnwrap(Round(storyName: "Round One"))
-        var roundOneCopy = try XCTUnwrap(Round(storyName: "Round One"))
+        var roundOne = Round(storyName: "Round One")
+        var roundOneCopy = Round(storyName: "Round One")
         roundOne.scoreCard = PlayingCard(faceValue: .one)
         roundOneCopy.scoreCard = PlayingCard(faceValue: .two)
         
@@ -69,8 +69,8 @@ final class RoundTests: XCTestCase {
     
     func testShouldNotBeEqualWhenStoryNamesAreDifferent() throws {
         // Given
-        let roundOne = try XCTUnwrap(Round(storyName: "Round One"))
-        let roundTwo = try XCTUnwrap(Round(storyName: "Round Two"))
+        let roundOne = Round(storyName: "Round One")
+        let roundTwo = Round(storyName: "Round Two")
         
         // Then
         XCTAssertNotEqual(roundOne, roundTwo)

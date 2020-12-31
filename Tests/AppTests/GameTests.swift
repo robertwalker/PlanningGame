@@ -19,7 +19,7 @@ final class GameTests: XCTestCase {
 
     func testShouldCreateGameUsingPowersOfTwoPointScale() throws {
         // When
-        let game = try XCTUnwrap(Game(gameMaster: gameMaster, pointScale: .powersOfTwo))
+        let game = Game(gameMaster: gameMaster, pointScale: .powersOfTwo)
 
         // Then
         XCTAssertEqual(game.gameMaster.name, "Game Master")
@@ -30,7 +30,7 @@ final class GameTests: XCTestCase {
 
     func testShouldCreateGameUsingFibonacciPointScale() throws {
         // When
-        let game = try XCTUnwrap(Game(gameMaster: gameMaster, pointScale: .fibonacci))
+        let game = Game(gameMaster: gameMaster, pointScale: .fibonacci)
 
         // Then
         XCTAssertEqual(game.gameMaster.name, "Game Master")
@@ -43,8 +43,8 @@ final class GameTests: XCTestCase {
     
     func testShouldAddAPlayer() throws {
         // Given
-        var game = try XCTUnwrap(Game(gameMaster: gameMaster, pointScale: .linear))
-        let playerOne = try XCTUnwrap(Player(name: "Player One"))
+        var game = Game(gameMaster: gameMaster, pointScale: .linear)
+        let playerOne = Player(name: "Player One")
 
         // When
         try! game.addPlayer(playerOne)
@@ -55,9 +55,9 @@ final class GameTests: XCTestCase {
 
     func testShouldNotAddAPlayerMoreThanOnce() throws {
         // Given
-        var game = try XCTUnwrap(Game(gameMaster: gameMaster, pointScale: .linear))
-        let playerOne = try XCTUnwrap(Player(name: "Player One"))
-        let playerTwo = try XCTUnwrap(Player(name: "Player Two"))
+        var game = Game(gameMaster: gameMaster, pointScale: .linear)
+        let playerOne = Player(name: "Player One")
+        let playerTwo = Player(name: "Player Two")
 
         // When/Then
         XCTAssertNoThrow(try game.addPlayer(playerOne))
@@ -71,7 +71,7 @@ final class GameTests: XCTestCase {
     func testShouldStartALinearRound() throws {
         // Given
         var game = makeTwoPlayerGame(pointScale: .linear)
-        let round = try XCTUnwrap(Round(storyName: "Test Story"))
+        let round = Round(storyName: "Test Story")
         let scoreCard = PlayingCard(faceValue: .question)
         
         // When
@@ -86,7 +86,7 @@ final class GameTests: XCTestCase {
     func testShouldStartAPowersOfTwoRound() throws {
         // Given
         var game = makeTwoPlayerGame(pointScale: .powersOfTwo)
-        let round = try XCTUnwrap(Round(storyName: "Test Story"))
+        let round = Round(storyName: "Test Story")
         let scoreCard = PlayingCard(faceValue: .question)
 
         // When
@@ -101,7 +101,7 @@ final class GameTests: XCTestCase {
     func testShouldStartAFibonaciiRound() throws {
         // Given
         var game = makeTwoPlayerGame(pointScale: .fibonacci)
-        let round = try XCTUnwrap(Round(storyName: "Test Story"))
+        let round = Round(storyName: "Test Story")
         let scoreCard = PlayingCard(faceValue: .question)
 
         // When
@@ -117,7 +117,7 @@ final class GameTests: XCTestCase {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
         let roundOne = try XCTUnwrap(game.rounds.last)
-        let roundTwo = try XCTUnwrap(Round(storyName: roundOne.storyName))
+        let roundTwo = Round(storyName: roundOne.storyName)
         let playerOne = try XCTUnwrap(game.players.first)
         let chosenCard = try XCTUnwrap(playerOne.hand.first)
 
@@ -131,7 +131,7 @@ final class GameTests: XCTestCase {
     func testShouldNotStartARoundWhenLastRoundIsNotScored() throws {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
-        let roundTwo = try XCTUnwrap(Round(storyName: "Story Two"))
+        let roundTwo = Round(storyName: "Story Two")
         let playerOne = try XCTUnwrap(game.players.first)
         let chosenCard = try XCTUnwrap(playerOne.hand.first)
 
@@ -228,7 +228,7 @@ final class GameTests: XCTestCase {
     func testShouldNotPlayACardWherePlayerIsNotInGame() throws {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
-        let playerTwo = try XCTUnwrap(Player(name: "Player Two"))
+        let playerTwo = Player(name: "Player Two")
         let playingCard = PlayingCard(faceValue: .one)
         
         // Then
