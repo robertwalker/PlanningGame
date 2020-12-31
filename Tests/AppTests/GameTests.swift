@@ -2,7 +2,7 @@ import XCTest
 @testable import App
 
 final class GameTests: XCTestCase {
-    let gameMaster = Player(name: "Game Master")!
+    let gameMaster = Player(name: "Game Master")
 
     // MARK: - Describe Creating a Game
     
@@ -72,13 +72,14 @@ final class GameTests: XCTestCase {
         // Given
         var game = makeTwoPlayerGame(pointScale: .linear)
         let round = try XCTUnwrap(Round(storyName: "Test Story"))
+        let scoreCard = PlayingCard(faceValue: .question)
         
         // When
         try game.startRound(round: round)
         
         // Then
         XCTAssertEqual(game.lastRound?.storyName, "Test Story")
-        XCTAssertEqual(game.lastRound?.pointValue, .question)
+        XCTAssertEqual(game.lastRound?.scoreCard, scoreCard)
         XCTAssertEqual(game.players[0].hand, playerHandLinear)
     }
 
@@ -86,13 +87,14 @@ final class GameTests: XCTestCase {
         // Given
         var game = makeTwoPlayerGame(pointScale: .powersOfTwo)
         let round = try XCTUnwrap(Round(storyName: "Test Story"))
+        let scoreCard = PlayingCard(faceValue: .question)
 
         // When
         try game.startRound(round: round)
         
         // Then
         XCTAssertEqual(game.lastRound?.storyName, "Test Story")
-        XCTAssertEqual(game.lastRound?.pointValue, .question)
+        XCTAssertEqual(game.lastRound?.scoreCard, scoreCard)
         XCTAssertEqual(game.players.first?.hand, playerHandPowersOfTwo)
     }
     
@@ -100,13 +102,14 @@ final class GameTests: XCTestCase {
         // Given
         var game = makeTwoPlayerGame(pointScale: .fibonacci)
         let round = try XCTUnwrap(Round(storyName: "Test Story"))
+        let scoreCard = PlayingCard(faceValue: .question)
 
         // When
         try game.startRound(round: round)
         
         // Then
         XCTAssertEqual(game.lastRound?.storyName, "Test Story")
-        XCTAssertEqual(game.lastRound?.pointValue, .question)
+        XCTAssertEqual(game.lastRound?.scoreCard, scoreCard)
         XCTAssertEqual(game.players.first?.hand, playerHandFibonacci)
     }
     
@@ -282,7 +285,7 @@ final class GameTests: XCTestCase {
         // Then
         let scoredRound = try XCTUnwrap(game.findRound(lastRound))
         XCTAssertEqual(scoredRound, lastRound)
-        XCTAssertEqual(scoredRound.pointValue, scoreCard.faceValue)
+        XCTAssertEqual(scoredRound.scoreCard, scoreCard)
     }
 
     func testShouldNotBeScorableWhenNoRoundHasStarted() throws {

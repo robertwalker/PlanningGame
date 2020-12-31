@@ -60,7 +60,7 @@ struct Game {
         guard possibleRound == nil else {
             throw GameError.roundMustHaveUniqueStoryName
         }
-        guard lastRound?.pointValue != .question else {
+        guard lastRound?.scoreCard != PlayingCard(faceValue: .question) else {
             throw GameError.roundMustBeScoredBeforeStartingNextRound
         }
 
@@ -102,7 +102,7 @@ struct Game {
             throw GameError.lastRoundHasNotEnded
         }
         
-        lastRound.pointValue = card.faceValue
+        lastRound.scoreCard = card
         rounds[rounds.count - 1] = lastRound
     }
 

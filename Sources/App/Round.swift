@@ -9,13 +9,11 @@ import Foundation
 
 struct Round {
     var storyName: String
-    var pointValue: FaceValue
+    var scoreCard = PlayingCard(faceValue: .question)
     var hasEnded = false
     
-    init?(storyName: String) {
-        if storyName.trimmingCharacters(in: .whitespacesAndNewlines) == "" { return nil }
+    init(storyName: String) {
         self.storyName = storyName
-        self.pointValue = .question
     }
 }
 

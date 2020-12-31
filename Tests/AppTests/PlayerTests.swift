@@ -10,15 +10,15 @@ final class PlayerTests: XCTestCase {
         let player = Player(name: "Player One")
         
         // Then
-        XCTAssertNotNil(player)
+        XCTAssertEqual(player.name, "Player One")
     }
     
-    func testShouldNotCreateAPlayerWithABlankName() {
+    func testShouldHaveAnEmptyHand() {
         // When
-        let player = Player(name: blankName)
+        let player = Player(name: "Player One")
         
         // Then
-        XCTAssertNil(player)
+        XCTAssertEqual(player.hand.count, 0)
     }
     
     // MARK: - Describe Equatable Conformance

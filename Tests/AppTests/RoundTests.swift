@@ -10,7 +10,7 @@ final class RoundTests: XCTestCase {
         let round = Round(storyName: "Round One")
         
         // Then
-        XCTAssertNotNil(round)
+        XCTAssertEqual(round.storyName, "Round One")
     }
     
     func testShouldNotBeEnded() throws {
@@ -21,12 +21,15 @@ final class RoundTests: XCTestCase {
         XCTAssertFalse(round.hasEnded)
     }
 
-    func testShouldNotCreateARoundWithABlankStoryName() {
+    func testShouldHaveAQuestionScoreCard() {
+        // Given
+        let scoreCard = PlayingCard(faceValue: .question)
+        
         // When
-        let round = Round(storyName: blankName)
+        let round = Round(storyName: "Round One")
         
         // Then
-        XCTAssertNil(round)
+        XCTAssertEqual(round.scoreCard, scoreCard)
     }
     
     // MARK: Describe Ending a Round
@@ -57,8 +60,8 @@ final class RoundTests: XCTestCase {
         // Given
         var roundOne = try XCTUnwrap(Round(storyName: "Round One"))
         var roundOneCopy = try XCTUnwrap(Round(storyName: "Round One"))
-        roundOne.pointValue = .one
-        roundOneCopy.pointValue = .two
+        roundOne.scoreCard = PlayingCard(faceValue: .one)
+        roundOneCopy.scoreCard = PlayingCard(faceValue: .two)
         
         // Then
         XCTAssertEqual(roundOne, roundOneCopy)
