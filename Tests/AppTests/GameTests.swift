@@ -2,7 +2,7 @@ import XCTest
 @testable import App
 
 final class GameTests: XCTestCase {
-    let gameMaster = Player(name: "Game Master")!
+    let gameMaster = Player(name: "Game Master")
 
     // MARK: - Describe Creating a Game
     
