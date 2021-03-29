@@ -7,14 +7,35 @@
 
 import Foundation
 
-enum FaceValue: Int {
-    case question = 0
-    case one = 1
-    case two = 2
-    case three = 3
-    case four = 4
-    case five = 5
-    case eight = 8
+enum FaceValue: String {
+    case question = "question"
+    case one = "one"
+    case two = "two"
+    case three = "three"
+    case four = "four"
+    case five = "five"
+    case eight = "eight"
+    
+    var pointValue: Int {
+        get {
+            switch self {
+            case .question:
+                return 0
+            case .one:
+                return 1
+            case .two:
+                return 2
+            case .three:
+                return 3
+            case .four:
+                return 4
+            case .five:
+                return 5
+            case .eight:
+                return 8
+            }
+        }
+    }
 }
 
 struct PlayingCard {
