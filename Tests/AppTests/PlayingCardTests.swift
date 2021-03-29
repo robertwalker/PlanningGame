@@ -5,7 +5,7 @@ final class PlayingCardTests: XCTestCase {
     
     // MARK: Describe Equatable Conformance
     
-    func testShouldBeEqualAllPropertiesAreEqual() {
+    func testShouldBeEqualWhenAllPropertiesAreEqual() {
         // Given
         let firstCard = PlayingCard(faceValue: .one)
         let secondCard = PlayingCard(faceValue: .one)
