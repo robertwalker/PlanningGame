@@ -1,5 +1,5 @@
 import XCTest
-@testable import App
+@testable import PlanningGame
 
 final class GameTests: XCTestCase {
     let gameMaster = Player(name: "Game Master")

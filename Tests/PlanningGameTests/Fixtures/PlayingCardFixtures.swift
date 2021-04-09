@@ -1,4 +1,4 @@
-@testable import App
+@testable import PlanningGame
 
 let playerHandLinear = [
     PlayingCard(faceValue: .one),

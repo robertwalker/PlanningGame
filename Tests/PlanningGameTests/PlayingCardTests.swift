@@ -1,5 +1,5 @@
 import XCTest
-@testable import App
+@testable import PlanningGame
 
 final class PlayingCardTests: XCTestCase {
     
