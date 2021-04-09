@@ -16,10 +16,10 @@ public enum GameError: Error {
     case roundMustBeScoredBeforeStartingNextRound
 }
 
-public enum PointScale {
-    case powersOfTwo
-    case linear
-    case fibonacci
+public enum PointScale: String {
+    case powersOfTwo = "powersOfTwo"
+    case linear = "linear"
+    case fibonacci = "fibonacci"
 }
 
 public struct Game {
