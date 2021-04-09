@@ -9,7 +9,7 @@ import Foundation
 
 struct Player {
     let name: String
-    var hand = [PlayingCard]()
+    var hand: [PlayingCard] = []
     
     init(name: String) {
         self.name = name

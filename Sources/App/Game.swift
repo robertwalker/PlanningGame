@@ -25,9 +25,9 @@ enum PointScale {
 struct Game {
     var gameMaster: Player
     let pointScale: PointScale
-    var players = [Player]()
-    var rounds = [Round]()
-    var playerCards = [PlayerCard]() {
+    var players: [Player] = []
+    var rounds: [Round] = []
+    var playerCards: [PlayerCard] = [] {
         didSet {
             endRoundIfLastPlay()
         }
