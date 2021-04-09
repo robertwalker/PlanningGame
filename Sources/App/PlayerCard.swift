@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PlayerCard: Equatable {
-    let player: Player
-    let playingCard: PlayingCard
+public struct PlayerCard: Equatable {
+    public let player: Player
+    public let playingCard: PlayingCard
 }

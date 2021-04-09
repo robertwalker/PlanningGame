@@ -5,7 +5,7 @@ final class PlayingCardTests: XCTestCase {
     
     // MARK: Describe Equatable Conformance
     
-    func testShouldBeEqualAllPropertiesAreEqual() {
+    func testShouldBeEqualWhenAllPropertiesAreEqual() {
         // Given
         let firstCard = PlayingCard(faceValue: .one)
         let secondCard = PlayingCard(faceValue: .one)
@@ -30,5 +30,22 @@ final class PlayingCardTests: XCTestCase {
         
         // Then
         XCTAssertNotEqual(secondCard, firstCard)
+    }
+    
+    func testShouldMapFaceValuesToPointValues() {
+        let valueMap: [FaceValue:Int] = [.question:0, .one:1, .two:2, .three:3, .four:4, .five:5, .eight:8]
+        for (faceValue, PointValue) in valueMap {
+            assertPointValue(faceValue: faceValue, pointValue: PointValue)
+        }
+    }
+
+    // MARK: Parameterized Tests
+    
+    private func assertPointValue(faceValue: FaceValue, pointValue: Int) {
+        // Given
+        let card = PlayingCard(faceValue: faceValue)
+        
+        // Then
+        XCTAssertEqual(card.faceValue.pointValue, pointValue)
     }
 }

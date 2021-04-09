@@ -2,6 +2,6 @@ import XCTest
 
 import PlanningGameTests
 
-var tests = [XCTestCaseEntry]()
+var tests: [XCTestCaseEntry] = []
 tests += PlanningGameTests.allTests()
 XCTMain(tests)
