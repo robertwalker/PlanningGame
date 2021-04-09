@@ -3,69 +3,49 @@ import XCTest
 
 final class PlayingCardTests: XCTestCase {
     
-    // MARK: Describe Getting the Image Name
+    // MARK: Describe Equatable Conformance
     
-    func testShouldProvideQuestionCardImageName() {
-        // When
-        let card = PlayingCard(faceValue: .question)
+    func testShouldBeEqualWhenAllPropertiesAreEqual() {
+        // Given
+        let firstCard = PlayingCard(faceValue: .one)
+        let secondCard = PlayingCard(faceValue: .one)
         
         // Then
-        XCTAssertEqual(card.imageName, "question_card.png")
-    }
-
-    func testShouldProvideOneCardImageName() {
-        // When
-        let card = PlayingCard(faceValue: .one)
-        
-        // Then
-        XCTAssertEqual(card.imageName, "one_card.png")
-    }
-
-    func testShouldProvideTwoCardImageName() {
-        // When
-        let card = PlayingCard(faceValue: .two)
-        
-        // Then
-        XCTAssertEqual(card.imageName, "two_card.png")
-    }
-
-    func testShouldProvideThreeCardImageName() {
-        // When
-        let card = PlayingCard(faceValue: .three)
-        
-        // Then
-        XCTAssertEqual(card.imageName, "three_card.png")
-    }
-
-    func testShouldProvideFourCardImageName() {
-        // When
-        let card = PlayingCard(faceValue: .four)
-        
-        // Then
-        XCTAssertEqual(card.imageName, "four_card.png")
-    }
-
-    func testShouldProvideFiveCardImageName() {
-        // When
-        let card = PlayingCard(faceValue: .five)
-        
-        // Then
-        XCTAssertEqual(card.imageName, "five_card.png")
-    }
-
-    func testShouldProvideEightCardImageName() {
-        // When
-        let card = PlayingCard(faceValue: .eight)
-        
-        // Then
-        XCTAssertEqual(card.imageName, "eight_card.png")
+        XCTAssertEqual(secondCard, firstCard)
     }
     
-    func testShouldProvideCardBackImageName() {
-        // When
-        let card = PlayingCard(faceValue: .one, isFaceDown: true)
+    func testShouldBeEqualWhenOnlyFaceValueIsEqual() {
+        // Given
+        let firstCard = PlayingCard(faceValue: .one, isFaceDown: false)
+        let secondCard = PlayingCard(faceValue: .one, isFaceDown: true)
         
         // Then
-        XCTAssertEqual(card.imageName, "card_back.png")
+        XCTAssertEqual(secondCard, firstCard)
+    }
+    
+    func testShouldNotBeEqualWhenFaceValueIsDifferent() {
+        // Given
+        let firstCard = PlayingCard(faceValue: .one)
+        let secondCard = PlayingCard(faceValue: .two)
+        
+        // Then
+        XCTAssertNotEqual(secondCard, firstCard)
+    }
+    
+    func testShouldMapFaceValuesToPointValues() {
+        let valueMap: [FaceValue:Int] = [.question:0, .one:1, .two:2, .three:3, .four:4, .five:5, .eight:8]
+        for (faceValue, PointValue) in valueMap {
+            assertPointValue(faceValue: faceValue, pointValue: PointValue)
+        }
+    }
+
+    // MARK: Parameterized Tests
+    
+    private func assertPointValue(faceValue: FaceValue, pointValue: Int) {
+        // Given
+        let card = PlayingCard(faceValue: faceValue)
+        
+        // Then
+        XCTAssertEqual(card.faceValue.pointValue, pointValue)
     }
 }
