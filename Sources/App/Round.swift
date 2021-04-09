@@ -7,18 +7,18 @@
 
 import Foundation
 
-struct Round {
-    var storyName: String
-    var scoreCard = PlayingCard(faceValue: .question)
-    var hasEnded = false
+public struct Round {
+    public var storyName: String
+    public var scoreCard = PlayingCard(faceValue: .question)
+    public var hasEnded = false
     
-    init(storyName: String) {
+    public init(storyName: String) {
         self.storyName = storyName
     }
 }
 
 extension Round: Equatable {
-    static func ==(lhs: Round, rhs: Round) -> Bool {
+    public static func ==(lhs: Round, rhs: Round) -> Bool {
         return lhs.storyName == rhs.storyName
     }
 }

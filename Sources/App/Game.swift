@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum GameError: Error {
+public enum GameError: Error {
     case lastRoundHasNotEnded
     case lastRoundNotFound
     case playerAlreadyAdded
@@ -16,38 +16,38 @@ enum GameError: Error {
     case roundMustBeScoredBeforeStartingNextRound
 }
 
-enum PointScale {
+public enum PointScale {
     case powersOfTwo
     case linear
     case fibonacci
 }
 
-struct Game {
-    var gameMaster: Player
-    let pointScale: PointScale
-    var players: [Player] = []
-    var rounds: [Round] = []
-    var playerCards: [PlayerCard] = [] {
+public struct Game {
+    public var gameMaster: Player
+    public let pointScale: PointScale
+    public var players: [Player] = []
+    public var rounds: [Round] = []
+    public var playerCards: [PlayerCard] = [] {
         didSet {
             endRoundIfLastPlay()
         }
     }
-    var lastRound: Round? { rounds.last }
+    public var lastRound: Round? { rounds.last }
 
-    init(gameMaster: Player, pointScale: PointScale) {
+    public init(gameMaster: Player, pointScale: PointScale) {
         self.gameMaster = gameMaster
         self.pointScale = pointScale
     }
 
-    func findPlayerCard(_ card: PlayerCard) -> PlayerCard? {
+    public func findPlayerCard(_ card: PlayerCard) -> PlayerCard? {
         return playerCards.first { $0 == card }
     }
     
-    func findRound(_ round: Round) -> Round? {
+    public func findRound(_ round: Round) -> Round? {
         return rounds.first { $0 == round }
     }
 
-    mutating func addPlayer(_ player: Player) throws {
+    public mutating func addPlayer(_ player: Player) throws {
         let activePlayer = self.players.first { $0 == player }
         guard activePlayer == nil else {
             throw GameError.playerAlreadyAdded
@@ -55,7 +55,7 @@ struct Game {
         players.append(player)
     }
     
-    mutating func startRound(round: Round) throws {
+    public mutating func startRound(round: Round) throws {
         let possibleRound = findRound(round)
         guard possibleRound == nil else {
             throw GameError.roundMustHaveUniqueStoryName
@@ -73,7 +73,7 @@ struct Game {
         rounds.append(round)
     }
     
-    mutating func playACard(player localPlayer: Player, card: PlayingCard) throws {
+    public mutating func playACard(player localPlayer: Player, card: PlayingCard) throws {
         var playedCard = card
         let possiblePlayer = self.players.first { $0 == localPlayer }
         guard let foundPlayer = possiblePlayer else {
@@ -94,7 +94,7 @@ struct Game {
         appendOrReplacePlayerCard(with: PlayerCard(player: foundPlayer, playingCard: playedCard))
     }
     
-    mutating func scoreRound(card: PlayingCard) throws {
+    public mutating func scoreRound(card: PlayingCard) throws {
         guard var lastRound = lastRound else {
             throw GameError.lastRoundNotFound
         }

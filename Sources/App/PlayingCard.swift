@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FaceValue: String {
+public enum FaceValue: String {
     case question = "question"
     case one = "one"
     case two = "two"
@@ -38,13 +38,13 @@ enum FaceValue: String {
     }
 }
 
-struct PlayingCard {
-    let faceValue: FaceValue
-    var isFaceDown = false
+public struct PlayingCard {
+    public let faceValue: FaceValue
+    public var isFaceDown = false
 }
 
 extension PlayingCard: Equatable {
-    static func ==(lhs: PlayingCard, rhs: PlayingCard) -> Bool {
+    public static func ==(lhs: PlayingCard, rhs: PlayingCard) -> Bool {
         return lhs.faceValue == rhs.faceValue
     }
 }

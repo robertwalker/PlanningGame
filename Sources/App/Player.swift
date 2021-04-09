@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct Player {
-    let name: String
-    var hand: [PlayingCard] = []
+public struct Player {
+    public let name: String
+    public var hand: [PlayingCard] = []
     
-    init(name: String) {
+    public init(name: String) {
         self.name = name
     }
 }
 
 extension Player: Equatable {
-    static func ==(lhs: Player, rhs: Player) -> Bool {
+    public static func ==(lhs: Player, rhs: Player) -> Bool {
         return lhs.name == rhs.name
     }
 }
