@@ -1,4 +1,4 @@
-@testable import App
+@testable import PlanningGame
 
 func makeOnePlayerGame(pointScale: PointScale) -> Game {
     let gameMaster = Player(name: "Game Master")
