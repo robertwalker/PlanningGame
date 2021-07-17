@@ -130,6 +130,7 @@ public struct Game {
     private func dealPlayerCards() -> [PlayingCard] {
         var hand = dealPointCards()
         hand.append(PlayingCard(faceValue: .question))
+        hand.append(PlayingCard(faceValue: .skip))
         return hand
     }
     
