@@ -9,6 +9,7 @@ import Foundation
 
 public enum FaceValue: String {
     case question = "question"
+    case skip = "skip"
     case one = "one"
     case two = "two"
     case three = "three"
@@ -20,6 +21,8 @@ public enum FaceValue: String {
         get {
             switch self {
             case .question:
+                return 0
+            case .skip:
                 return 0
             case .one:
                 return 1

@@ -33,9 +33,18 @@ final class PlayingCardTests: XCTestCase {
     }
     
     func testShouldMapFaceValuesToPointValues() {
-        let valueMap: [FaceValue:Int] = [.question:0, .one:1, .two:2, .three:3, .four:4, .five:5, .eight:8]
-        for (faceValue, PointValue) in valueMap {
-            assertPointValue(faceValue: faceValue, pointValue: PointValue)
+        let valueMap: [FaceValue:Int] = [
+            .question: 0,
+            .skip: 0,
+            .one: 1,
+            .two: 2,
+            .three: 3,
+            .four: 4,
+            .five: 5,
+            .eight: 8
+        ]
+        for (faceValue, pointValue) in valueMap {
+            assertPointValue(faceValue: faceValue, pointValue: pointValue)
         }
     }
 

@@ -5,6 +5,7 @@ let playerHandLinear = [
     PlayingCard(faceValue: .two),
     PlayingCard(faceValue: .three),
     PlayingCard(faceValue: .question),
+    PlayingCard(faceValue: .skip),
 ]
 
 let playerHandPowersOfTwo = [
@@ -13,6 +14,7 @@ let playerHandPowersOfTwo = [
     PlayingCard(faceValue: .four),
     PlayingCard(faceValue: .eight),
     PlayingCard(faceValue: .question),
+    PlayingCard(faceValue: .skip),
 ]
 
 let playerHandFibonacci = [
@@ -22,4 +24,5 @@ let playerHandFibonacci = [
     PlayingCard(faceValue: .five),
     PlayingCard(faceValue: .eight),
     PlayingCard(faceValue: .question),
+    PlayingCard(faceValue: .skip),
 ]
