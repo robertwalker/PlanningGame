@@ -55,6 +55,10 @@ public struct Game {
         players.append(player)
     }
     
+    public mutating func removePlayer(_ player: Player) {
+        players = players.filter { $0 != player }
+    }
+    
     public mutating func startRound(round: Round) throws {
         let possibleRound = findRound(round)
         guard possibleRound == nil else {
