@@ -47,7 +47,7 @@ final class GameTests: XCTestCase {
         let playerOne = Player(name: "Player One")
 
         // When
-        try! game.addPlayer(playerOne)
+        try game.addPlayer(playerOne)
         
         // Then
         XCTAssertEqual(game.players.count, 1)
@@ -64,6 +64,26 @@ final class GameTests: XCTestCase {
         XCTAssertNoThrow(try game.addPlayer(playerTwo))
         XCTAssertThrowsError(try game.addPlayer(playerOne))
         XCTAssertEqual(game.players.count, 2)
+    }
+    
+    // MARK: - Describe Removing a Player
+    
+    func testShouldRemoveAPlayer() throws {
+        // Setup
+        var game = Game(gameMaster: gameMaster, pointScale: .linear)
+        let playerOne = Player(name: "Player One")
+        try game.addPlayer(playerOne)
+
+        // Given
+        let playerTwo = Player(name: "Player Two")
+        
+        // When
+        game.removePlayer(playerTwo)
+        
+        // Then
+        XCTAssertEqual(game.players.count, 1)
+        XCTAssertTrue(game.players.contains(playerOne))
+        XCTAssertFalse(game.players.contains(playerTwo))
     }
     
     // MARK: - Describe Starting a Round
