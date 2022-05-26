@@ -16,7 +16,7 @@ final class PlayingCardTests: XCTestCase {
     
     func testShouldBeEqualWhenOnlyFaceValueIsEqual() {
         // Given
-        let firstCard = PlayingCard(faceValue: .one, isFaceDown: false)
+        let firstCard = PlayingCard(faceValue: .one)
         let secondCard = PlayingCard(faceValue: .one, isFaceDown: true)
         
         // Then
