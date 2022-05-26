@@ -44,6 +44,15 @@ public enum FaceValue: String {
 public struct PlayingCard {
     public let faceValue: FaceValue
     public var isFaceDown = false
+    
+    public init(faceValue: FaceValue, isFaceDown: Bool) {
+        self.faceValue = faceValue
+        self.isFaceDown = isFaceDown
+    }
+    
+    public init(faceValue: FaceValue) {
+        self.faceValue = faceValue
+    }
 }
 
 extension PlayingCard: Equatable {
