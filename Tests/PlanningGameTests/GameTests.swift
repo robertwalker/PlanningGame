@@ -3,7 +3,7 @@ import XCTest
 
 final class GameTests: XCTestCase {
     let gameMaster = Player(name: "Game Master")
-
+    
     // MARK: - Describe Creating a Game
     
     func testShouldCreateGameUsingLinearPointScale() throws {
@@ -16,22 +16,22 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(game.players.count, 0)
         XCTAssertEqual(game.playerCards.count, 0)
     }
-
+    
     func testShouldCreateGameUsingPowersOfTwoPointScale() throws {
         // When
         let game = Game(gameMaster: gameMaster, pointScale: .powersOfTwo)
-
+        
         // Then
         XCTAssertEqual(game.gameMaster.name, "Game Master")
         XCTAssertEqual(game.pointScale, .powersOfTwo)
         XCTAssertEqual(game.players.count, 0)
         XCTAssertEqual(game.playerCards.count, 0)
     }
-
+    
     func testShouldCreateGameUsingFibonacciPointScale() throws {
         // When
         let game = Game(gameMaster: gameMaster, pointScale: .fibonacci)
-
+        
         // Then
         XCTAssertEqual(game.gameMaster.name, "Game Master")
         XCTAssertEqual(game.pointScale, .fibonacci)
@@ -45,20 +45,20 @@ final class GameTests: XCTestCase {
         // Given
         var game = Game(gameMaster: gameMaster, pointScale: .linear)
         let playerOne = Player(name: "Player One")
-
+        
         // When
         try game.addPlayer(playerOne)
         
         // Then
         XCTAssertEqual(game.players.count, 1)
     }
-
+    
     func testShouldNotAddAPlayerMoreThanOnce() throws {
         // Given
         var game = Game(gameMaster: gameMaster, pointScale: .linear)
         let playerOne = Player(name: "Player One")
         let playerTwo = Player(name: "Player Two")
-
+        
         // When/Then
         XCTAssertNoThrow(try game.addPlayer(playerOne))
         XCTAssertNoThrow(try game.addPlayer(playerTwo))
@@ -73,7 +73,7 @@ final class GameTests: XCTestCase {
         var game = Game(gameMaster: gameMaster, pointScale: .linear)
         let playerOne = Player(name: "Player One")
         try game.addPlayer(playerOne)
-
+        
         // Given
         let playerTwo = Player(name: "Player Two")
         
@@ -102,13 +102,13 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(game.lastRound?.scoreCard, scoreCard)
         XCTAssertEqual(game.players[0].hand, playerHandLinear)
     }
-
+    
     func testShouldStartAPowersOfTwoRound() throws {
         // Given
         var game = makeTwoPlayerGame(pointScale: .powersOfTwo)
         let round = Round(storyName: "Test Story")
         let scoreCard = PlayingCard(faceValue: .question)
-
+        
         // When
         try game.startRound(round: round)
         
@@ -123,7 +123,7 @@ final class GameTests: XCTestCase {
         var game = makeTwoPlayerGame(pointScale: .fibonacci)
         let round = Round(storyName: "Test Story")
         let scoreCard = PlayingCard(faceValue: .question)
-
+        
         // When
         try game.startRound(round: round)
         
@@ -140,7 +140,7 @@ final class GameTests: XCTestCase {
         let roundTwo = Round(storyName: roundOne.storyName)
         let playerOne = try XCTUnwrap(game.players.first)
         let chosenCard = try XCTUnwrap(playerOne.hand.first)
-
+        
         // When
         try game.playACard(player: playerOne, card: chosenCard)
         
@@ -154,14 +154,14 @@ final class GameTests: XCTestCase {
         let roundTwo = Round(storyName: "Story Two")
         let playerOne = try XCTUnwrap(game.players.first)
         let chosenCard = try XCTUnwrap(playerOne.hand.first)
-
+        
         // When
         try game.playACard(player: playerOne, card: chosenCard)
         
         // Then
         XCTAssertThrowsError(try game.startRound(round: roundTwo))
     }
-
+    
     // MARK: - Describe Finding a PlayerCard
     
     func testShouldFindAPlayerCardInPlayedCards() throws {
@@ -180,51 +180,51 @@ final class GameTests: XCTestCase {
     }
     
     // MARK: - Describe Playing a Card
-
+    
     func testShouldRemoveThePlayedCardFromPlayersHand() throws {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
         let playerOne = try XCTUnwrap(game.players.first)
         let chosenCardFromHand = try XCTUnwrap(game.players.first?.hand.first)
         let expectedPlayerHand = playerHandLinear.filter { $0 != chosenCardFromHand }
-
+        
         // When
         try game.playACard(player: playerOne, card: chosenCardFromHand)
-
+        
         // Then
         let actualPlayerHand = try XCTUnwrap(game.players.first?.hand)
         XCTAssertEqual(actualPlayerHand, expectedPlayerHand, "Expected played card to be removed from player's hand")
     }
-
+    
     func testShouldAppendThePlayersChosenCardToPlayedCards() throws {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
         let playerOne = try XCTUnwrap(game.players.first)
         let chosenCardFromHand = try XCTUnwrap(game.players.first?.hand.first)
         let expectedPlayedCards = [PlayerCard(player: playerOne, playingCard: chosenCardFromHand)]
-
+        
         // When
         try game.playACard(player: playerOne, card: chosenCardFromHand)
-
+        
         // Then
         XCTAssertEqual(game.playerCards, expectedPlayedCards, "Expected chosen card to be added to game's played cards")
     }
-
+    
     func testShouldFlipThePlayedCardFaceDown() throws {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
         let playerOne = try XCTUnwrap(game.players.first)
         let chosenCardFromHand = try XCTUnwrap(game.players.first?.hand.first)
         let expectedPlayerCard = PlayerCard(player: playerOne, playingCard: chosenCardFromHand)
-
+        
         // When
         try game.playACard(player: playerOne, card: chosenCardFromHand)
-
+        
         // Then
         let actualPlayerCard = try XCTUnwrap(game.findPlayerCard(expectedPlayerCard))
         XCTAssertTrue(actualPlayerCard.playingCard.isFaceDown, "Expected played card to be face down")
     }
-
+    
     func testShouldReplacePlayerCardInPlayedCards() throws {
         // Given
         var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
@@ -243,6 +243,27 @@ final class GameTests: XCTestCase {
         let actualPlayerCard = try XCTUnwrap(game.findPlayerCard(expectedPlayerCard))
         XCTAssertEqual(game.playerCards.count, 2)
         XCTAssertEqual(actualPlayerCard, expectedPlayerCard)
+    }
+    
+    func testShouldAppendReplacedCardInPlayerHand() throws {
+        // Given
+        var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
+        let playerOne = try XCTUnwrap(game.players.first)
+        let playerTwo = try XCTUnwrap(game.players[1])
+        let firstPlayingCard = try XCTUnwrap(playerOne.hand.first)
+        let secondPlayingCard = try XCTUnwrap(playerOne.hand[1])
+        
+        // When: Player One replaces their played card with another one
+        try game.playACard(player: playerOne, card: firstPlayingCard)
+        try game.playACard(player: playerTwo, card: firstPlayingCard)
+        try game.playACard(player: playerOne, card: secondPlayingCard)
+        
+        // Then: The first played card returns to Player One's hand as the second card is played
+        let actualPlayer = try XCTUnwrap(game.players.first(where: { $0.name == playerOne.name }))
+        XCTAssertEqual(actualPlayer.hand.count, 4)
+        XCTAssertTrue(actualPlayer.hand.contains(firstPlayingCard))
+        XCTAssertFalse(actualPlayer.hand.contains(secondPlayingCard))
+        
     }
     
     func testShouldNotPlayACardWherePlayerIsNotInGame() throws {
@@ -264,7 +285,7 @@ final class GameTests: XCTestCase {
         let playerTwo = try XCTUnwrap(game.players[1])
         let playerOneCard = try XCTUnwrap(playerOne.hand.first)
         let playerTwoCard = try XCTUnwrap(playerTwo.hand.first)
-
+        
         // When
         try game.playACard(player: playerOne, card: playerOneCard)
         try game.playACard(player: playerTwo, card: playerTwoCard)
@@ -273,13 +294,13 @@ final class GameTests: XCTestCase {
         let currentRound = try XCTUnwrap(game.lastRound)
         XCTAssertTrue(currentRound.hasEnded)
     }
-
+    
     func testShouldNotEndCurrentRoundSomePlayersHaveNotPlayed() throws {
         // Given
         var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
         let playerOne = try XCTUnwrap(game.players.first)
         let playerOneCard = try XCTUnwrap(playerOne.hand.first)
-
+        
         // When
         try game.playACard(player: playerOne, card: playerOneCard)
         
@@ -307,7 +328,7 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(scoredRound, lastRound)
         XCTAssertEqual(scoredRound.scoreCard, scoreCard)
     }
-
+    
     func testShouldNotBeScorableWhenNoRoundHasStarted() throws {
         // Given
         var game = makeOnePlayerGame(pointScale: .linear)
@@ -316,12 +337,12 @@ final class GameTests: XCTestCase {
         // Then
         XCTAssertThrowsError(try game.scoreRound(card: scoreCard))
     }
-
+    
     func testShouldNotBeScorableUntilLastRoundHasEnded() throws {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
         let scoreCard = try XCTUnwrap(game.gameMaster.hand.first)
-
+        
         // Then
         XCTAssertThrowsError(try game.scoreRound(card: scoreCard))
     }
