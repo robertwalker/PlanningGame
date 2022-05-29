@@ -116,6 +116,8 @@ public struct Game {
         
         lastRound.scoreCard = card
         rounds[rounds.count - 1] = lastRound
+        
+        playerCards = []
     }
     
     // MARK: - Private Methods
