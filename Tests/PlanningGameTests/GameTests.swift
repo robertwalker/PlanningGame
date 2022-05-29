@@ -329,6 +329,23 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(scoredRound.scoreCard, scoreCard)
     }
     
+    func testShouldClearPlayedCardsWhenRoundIsScored() throws {
+        // Given
+        var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
+        let playerOne = try XCTUnwrap(game.players.first)
+        let playerTwo = try XCTUnwrap(game.players[1])
+        let playingCard = try XCTUnwrap(playerOne.hand.first)
+        let scoreCard = try XCTUnwrap(game.gameMaster.hand.first)
+        
+        // When
+        try game.playACard(player: playerOne, card: playingCard)
+        try game.playACard(player: playerTwo, card: playingCard)
+        try game.scoreRound(card: scoreCard)
+        
+        // Then
+        XCTAssertEqual(game.playerCards.count, 0)
+    }
+    
     func testShouldNotBeScorableWhenNoRoundHasStarted() throws {
         // Given
         var game = makeOnePlayerGame(pointScale: .linear)
