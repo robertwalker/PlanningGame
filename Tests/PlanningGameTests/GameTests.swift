@@ -276,6 +276,66 @@ final class GameTests: XCTestCase {
         XCTAssertThrowsError(try game.playACard(player: playerTwo, card: playingCard))
     }
     
+    // MARK: - Describe Replaying a Round
+    
+    func testShouldReplayCurrentRound() throws {
+        // Setup
+        var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
+        let gameMasterHand = game.gameMaster.hand
+        let playerOne = game.players[0]
+        let playerTwo = game.players[1]
+        let playerOneHand = playerOne.hand
+        let playerTwoHand = playerTwo.hand
+        let playerOneCard = try XCTUnwrap(playerOneHand.first)
+        let playerTwoCard = try XCTUnwrap(playerTwoHand.last)
+
+        // Given: All players have played a card
+        try game.playACard(player: playerOne, card: playerOneCard)
+        try game.playACard(player: playerTwo, card: playerTwoCard)
+
+        // When: The game master replays the round
+        try game.replayRound()
+        
+        // Then: Current round should not show ended
+        let lastRound = try XCTUnwrap(game.lastRound)
+        XCTAssertFalse(lastRound.hasEnded)
+        
+        // And: All played cards are removed form the game board
+        XCTAssertTrue(game.playerCards.isEmpty)
+        
+        // And: The game master and all player hands are reset
+        XCTAssertEqual(game.gameMaster.hand, gameMasterHand)
+        XCTAssertEqual(game.players[0].hand, playerOneHand)
+        XCTAssertEqual(game.players[1].hand, playerTwoHand)
+    }
+    
+    func testShouldNotReplayARoundWhenThereAreNoRounds() {
+        // Given: A game with no rounds
+        let gameMaster = Player(name: "Game Master")
+        var game = Game(gameMaster: gameMaster, pointScale: .linear)
+        
+        // When: Attempting to replay a round, Then: An error should be thown
+        XCTAssertThrowsError(try game.replayRound())
+    }
+    
+    func testShouldNotReplayARoundThatHasBeenScored() throws {
+        // Setup
+        var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
+        let playerOne = game.players[0]
+        let playerTwo = game.players[1]
+        let playerOneCard = try XCTUnwrap(playerOne.hand.first)
+        let playerTwoCard = try XCTUnwrap(playerTwo.hand.last)
+        let scoreCard = try XCTUnwrap(game.gameMaster.hand.first)
+
+        // Given: All players have played a card and the round is scored
+        try game.playACard(player: playerOne, card: playerOneCard)
+        try game.playACard(player: playerTwo, card: playerTwoCard)
+        try game.scoreRound(card: scoreCard)
+
+        // When: The game master replays the round, Then: An error is thown
+        XCTAssertThrowsError(try game.replayRound())
+    }
+    
     // MARK: - Describe Ending a Round
     
     func testShouldEndCurrentRoundWhenAllPlayersHavePlayed() throws {
