@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 1.4.2: 05/31/2022
+
+### Fixed
+
+99be073 Make FaceValue’s pointValue property public
+
 ## Version 1.4.1: 05/31/2022
 
 ### Fixed
