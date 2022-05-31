@@ -32,9 +32,9 @@ final class RoundTests: XCTestCase {
         XCTAssertEqual(round.scoreCard, scoreCard)
     }
     
-    // MARK: Describe Ending a Round
+    // MARK: - Describe Ending a Round
     
-    func testShouldEndTheRound() throws {
+    func testShouldEndTheRound() {
         // Given
         var round = Round(storyName: "Round One")
         
@@ -45,9 +45,9 @@ final class RoundTests: XCTestCase {
         XCTAssertTrue(round.hasEnded)
     }
     
-    // MARK: Describe Equatable Conformance
+    // MARK: - Describe Equatable Conformance
     
-    func testShouldEqualWhenAllPropertiesAreEqual() throws {
+    func testShouldEqualWhenStoryNameMatch() {
         // Given
         let roundOne = Round(storyName: "Round One")
         let roundOneCopy = Round(storyName: "Round One")
@@ -56,7 +56,16 @@ final class RoundTests: XCTestCase {
         XCTAssertEqual(roundOne, roundOneCopy)
     }
     
-    func testShouldBeEqualWhenStoryNamesAreTheSame() throws {
+    func testShouldEqualWhenStoryNamesMatchWithDifferentCase() {
+        // Given
+        let roundOne = Round(storyName: "ROUND ONE")
+        let roundOneCopy = Round(storyName: "round one")
+        
+        // Then
+        XCTAssertEqual(roundOne, roundOneCopy)
+    }
+    
+    func testShouldBeEqualWhenStoryNamesAreTheSame() {
         // Given
         var roundOne = Round(storyName: "Round One")
         var roundOneCopy = Round(storyName: "Round One")
@@ -67,7 +76,7 @@ final class RoundTests: XCTestCase {
         XCTAssertEqual(roundOne, roundOneCopy)
     }
     
-    func testShouldNotBeEqualWhenStoryNamesAreDifferent() throws {
+    func testShouldNotBeEqualWhenStoryNamesAreDifferent() {
         // Given
         let roundOne = Round(storyName: "Round One")
         let roundTwo = Round(storyName: "Round Two")

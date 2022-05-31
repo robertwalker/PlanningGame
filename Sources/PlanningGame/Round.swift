@@ -19,6 +19,6 @@ public struct Round {
 
 extension Round: Equatable {
     public static func ==(lhs: Round, rhs: Round) -> Bool {
-        return lhs.storyName == rhs.storyName
+        return lhs.storyName.caseInsensitiveCompare(rhs.storyName) == .orderedSame
     }
 }

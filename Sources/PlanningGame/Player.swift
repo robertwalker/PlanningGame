@@ -18,6 +18,6 @@ public struct Player {
 
 extension Player: Equatable {
     public static func ==(lhs: Player, rhs: Player) -> Bool {
-        return lhs.name == rhs.name
+        return lhs.name.caseInsensitiveCompare(rhs.name) == .orderedSame
     }
 }
