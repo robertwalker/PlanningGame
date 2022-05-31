@@ -17,7 +17,7 @@ public enum FaceValue: String {
     case five = "five"
     case eight = "eight"
     
-    var pointValue: Int {
+    public var pointValue: Int {
         get {
             switch self {
             case .question:
