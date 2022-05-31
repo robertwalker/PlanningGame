@@ -14,6 +14,7 @@ public enum GameError: Error {
     case playerNotFound
     case roundMustHaveUniqueStoryName
     case roundMustBeScoredBeforeStartingNextRound
+    case scoredRoundsCannotBeReplayed
 }
 
 public enum PointScale: String {
@@ -106,16 +107,37 @@ public struct Game {
         }
     }
     
-    public mutating func scoreRound(card: PlayingCard) throws {
-        guard var lastRound = lastRound else {
+    public mutating func replayRound() throws {
+        guard var lastRoundCopy = lastRound else {
             throw GameError.lastRoundNotFound
         }
-        guard lastRound.hasEnded else {
+        guard lastRoundCopy.scoreCard.faceValue == .question else {
+            throw GameError.scoredRoundsCannotBeReplayed
+        }
+        
+        lastRoundCopy.hasEnded = false
+        rounds[rounds.count - 1] = lastRoundCopy
+
+        playerCards = []
+        
+        gameMaster.hand = dealPointCards()
+        players = players.map({ (player) -> Player in
+            var playerCopy = player
+            playerCopy.hand = dealPlayerCards()
+            return playerCopy
+        })
+    }
+    
+    public mutating func scoreRound(card: PlayingCard) throws {
+        guard var lastRoundCopy = lastRound else {
+            throw GameError.lastRoundNotFound
+        }
+        guard lastRoundCopy.hasEnded else {
             throw GameError.lastRoundHasNotEnded
         }
         
-        lastRound.scoreCard = card
-        rounds[rounds.count - 1] = lastRound
+        lastRoundCopy.scoreCard = card
+        rounds[rounds.count - 1] = lastRoundCopy
         
         playerCards = []
     }
