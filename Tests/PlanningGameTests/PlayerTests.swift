@@ -23,7 +23,7 @@ final class PlayerTests: XCTestCase {
     
     // MARK: - Describe Equatable Conformance
     
-    func testShouldBeEqualWhenNamesMatch() throws {
+    func testShouldBeEqualWhenNamesMatch() {
         // Given
         let playerOne = Player(name: "Same Name")
         let playerTwo = Player(name: "Same Name")
@@ -32,7 +32,16 @@ final class PlayerTests: XCTestCase {
         XCTAssertTrue(playerOne == playerTwo)
     }
     
-    func testShouldBeEqualWhenNamesMatchWithDifferentHands() throws {
+    func testShouldBeEqualWhenNamesMatchWithDifferentCase() {
+        // Given
+        let playerOne = Player(name: "SAME NAME")
+        let playerTwo = Player(name: "same name")
+        
+        // Then
+        XCTAssertTrue(playerOne == playerTwo)
+    }
+    
+    func testShouldBeEqualWhenNamesMatchWithDifferentHands() {
         // Given
         var playerOne = Player(name: "Same Name")
         var playerTwo = Player(name: "Same Name")
@@ -45,7 +54,7 @@ final class PlayerTests: XCTestCase {
         XCTAssertTrue(playerOne == playerTwo)
     }
     
-    func testShoudNotBeEqualWhenNamesAreDifferent() throws {
+    func testShoudNotBeEqualWhenNamesAreDifferent() {
         // Given
         let playerOne = Player(name: "Player One")
         let playerTwo = Player(name: "Player Two")

@@ -1,5 +1,12 @@
 # Change Log
 
+## Version 1.4.1: 05/31/2022
+
+### Fixed
+
+313bcfe Make player name comparision case insensitive
+9e22c96 Make round story name comparision case insensitive
+
 ## Version 1.4.0: 05/31/2022
 
 ### Added
