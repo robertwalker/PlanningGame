@@ -10,8 +10,10 @@ import Foundation
 public enum GameError: Error {
     case lastRoundHasNotEnded
     case lastRoundNotFound
+    case playerNameCannotBeBlank
     case playerAlreadyAdded
     case playerNotFound
+    case roundStoryNameCannotBeBlank
     case roundMustHaveUniqueStoryName
     case roundMustBeScoredBeforeStartingNextRound
     case scoredRoundsCannotBeReplayed
@@ -21,6 +23,16 @@ public enum PointScale: String {
     case powersOfTwo = "powersOfTwo"
     case linear = "linear"
     case fibonacci = "fibonacci"
+}
+
+extension String {
+    func isBlank() -> Bool {
+        return self.trimmingCharacters(in: .whitespaces).isEmpty
+    }
+    
+    func isNotBlank() -> Bool {
+        return !isBlank()
+    }
 }
 
 public struct Game {
@@ -53,6 +65,9 @@ public struct Game {
         guard activePlayer == nil else {
             throw GameError.playerAlreadyAdded
         }
+        guard player.name.isNotBlank() else {
+            throw GameError.playerNameCannotBeBlank
+        }
         players.append(player)
     }
     
@@ -67,6 +82,9 @@ public struct Game {
         }
         guard lastRound?.scoreCard != PlayingCard(faceValue: .question) else {
             throw GameError.roundMustBeScoredBeforeStartingNextRound
+        }
+        guard round.storyName.isNotBlank() else {
+            throw GameError.roundStoryNameCannotBeBlank
         }
         
         gameMaster.hand = dealPointCards()
