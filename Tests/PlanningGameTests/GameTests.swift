@@ -53,6 +53,15 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(game.players.count, 1)
     }
     
+    func testShouldNotAddPlayerWithEmptyName() {
+        // Given
+        var game = Game(gameMaster: gameMaster, pointScale: .linear)
+        let playerOne = Player(name: "")
+        
+        // When/Then
+        XCTAssertThrowsError(try game.addPlayer(playerOne))
+    }
+    
     func testShouldNotAddAPlayerMoreThanOnce() throws {
         // Given
         var game = Game(gameMaster: gameMaster, pointScale: .linear)
@@ -131,6 +140,15 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(game.lastRound?.storyName, "Test Story")
         XCTAssertEqual(game.lastRound?.scoreCard, scoreCard)
         XCTAssertEqual(game.players.first?.hand, playerHandFibonacci)
+    }
+    
+    func testShouldNotStartARoundWithABlankStoryName() throws {
+        // Given
+        var game = makeOnePlayerGame(pointScale: .linear)
+        let roundOne = Round(storyName: "")
+
+        // When/Then
+        XCTAssertThrowsError(try game.startRound(round: roundOne))
     }
     
     func testShouldNotStartARoundWithADuplicateStoryName() throws {
