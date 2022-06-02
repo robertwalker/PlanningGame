@@ -142,6 +142,15 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(game.players.first?.hand, playerHandFibonacci)
     }
     
+    func testShouldNotStartARoundWithABlankStoryName() throws {
+        // Given
+        var game = makeOnePlayerGame(pointScale: .linear)
+        let roundOne = Round(storyName: "")
+
+        // When/Then
+        XCTAssertThrowsError(try game.startRound(round: roundOne))
+    }
+    
     func testShouldNotStartARoundWithADuplicateStoryName() throws {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)

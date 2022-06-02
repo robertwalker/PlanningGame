@@ -13,6 +13,7 @@ public enum GameError: Error {
     case playerNameCannotBeBlank
     case playerAlreadyAdded
     case playerNotFound
+    case roundStoryNameCannotBeBlank
     case roundMustHaveUniqueStoryName
     case roundMustBeScoredBeforeStartingNextRound
     case scoredRoundsCannotBeReplayed
@@ -81,6 +82,9 @@ public struct Game {
         }
         guard lastRound?.scoreCard != PlayingCard(faceValue: .question) else {
             throw GameError.roundMustBeScoredBeforeStartingNextRound
+        }
+        guard round.storyName.isNotBlank() else {
+            throw GameError.roundStoryNameCannotBeBlank
         }
         
         gameMaster.hand = dealPointCards()
