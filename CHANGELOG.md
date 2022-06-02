@@ -1,5 +1,12 @@
 # Change Log
 
+## Version 1.4.3: 06/02/2022
+
+### Fixed
+
+84334b2 Throw error if player name is blank
+d15448b Throw error if round’s story name is blank
+
 ## Version 1.4.2: 05/31/2022
 
 ### Fixed
