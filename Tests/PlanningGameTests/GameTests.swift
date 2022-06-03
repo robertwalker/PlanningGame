@@ -50,7 +50,23 @@ final class GameTests: XCTestCase {
         try game.addPlayer(playerOne)
         
         // Then
+        let joinedPlayer = game.players.filter { $0 == playerOne }
         XCTAssertEqual(game.players.count, 1)
+        XCTAssertTrue(joinedPlayer[0].hand.isEmpty)
+    }
+    
+    func testShouldAddAPlayerWithActiveGameRound() throws {
+        // Given
+        var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
+        let playerThree = Player(name: "Player Three")
+
+        // When
+        try game.addPlayer(playerThree)
+        
+        // Then
+        let joinedPlayer = game.players.filter { $0 == playerThree }
+        XCTAssertEqual(game.players.count, 3)
+        XCTAssertEqual(joinedPlayer[0].hand.count, 5)
     }
     
     func testShouldNotAddAPlayerMoreThanOnce() throws {

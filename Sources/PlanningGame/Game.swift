@@ -51,11 +51,19 @@ public struct Game {
     }
     
     public mutating func addPlayer(_ player: Player) throws {
+        var playerCopy = player
         let activePlayer = self.players.first { $0 == player }
         guard activePlayer == nil else {
             throw GameError.playerAlreadyAdded
         }
-        players.append(player)
+        
+        if let round = lastRound {
+            if !round.hasEnded {
+                playerCopy.hand = dealPlayerCards()
+            }
+        }
+        
+        players.append(playerCopy)
     }
     
     public mutating func removePlayer(_ player: Player) {
