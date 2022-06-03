@@ -53,15 +53,6 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(game.players.count, 1)
     }
     
-    func testShouldNotAddPlayerWithEmptyName() {
-        // Given
-        var game = Game(gameMaster: gameMaster, pointScale: .linear)
-        let playerOne = Player(name: "")
-        
-        // When/Then
-        XCTAssertThrowsError(try game.addPlayer(playerOne))
-    }
-    
     func testShouldNotAddAPlayerMoreThanOnce() throws {
         // Given
         var game = Game(gameMaster: gameMaster, pointScale: .linear)
@@ -140,15 +131,6 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(game.lastRound?.storyName, "Test Story")
         XCTAssertEqual(game.lastRound?.scoreCard, scoreCard)
         XCTAssertEqual(game.players.first?.hand, playerHandFibonacci)
-    }
-    
-    func testShouldNotStartARoundWithABlankStoryName() throws {
-        // Given
-        var game = makeOnePlayerGame(pointScale: .linear)
-        let roundOne = Round(storyName: "")
-
-        // When/Then
-        XCTAssertThrowsError(try game.startRound(round: roundOne))
     }
     
     func testShouldNotStartARoundWithADuplicateStoryName() throws {
@@ -306,11 +288,11 @@ final class GameTests: XCTestCase {
         let playerTwoHand = playerTwo.hand
         let playerOneCard = try XCTUnwrap(playerOneHand.first)
         let playerTwoCard = try XCTUnwrap(playerTwoHand.last)
-
+        
         // Given: All players have played a card
         try game.playACard(player: playerOne, card: playerOneCard)
         try game.playACard(player: playerTwo, card: playerTwoCard)
-
+        
         // When: The game master replays the round
         try game.replayRound()
         
@@ -344,12 +326,12 @@ final class GameTests: XCTestCase {
         let playerOneCard = try XCTUnwrap(playerOne.hand.first)
         let playerTwoCard = try XCTUnwrap(playerTwo.hand.last)
         let scoreCard = try XCTUnwrap(game.gameMaster.hand.first)
-
+        
         // Given: All players have played a card and the round is scored
         try game.playACard(player: playerOne, card: playerOneCard)
         try game.playACard(player: playerTwo, card: playerTwoCard)
         try game.scoreRound(card: scoreCard)
-
+        
         // When: The game master replays the round, Then: An error is thown
         XCTAssertThrowsError(try game.replayRound())
     }
