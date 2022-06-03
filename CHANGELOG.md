@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 1.4.4: 06/03/2022
+
+### Fixed
+
+3b0bfb1 Remove input validation
+
 ## Version 1.4.3: 06/02/2022
 
 ### Fixed

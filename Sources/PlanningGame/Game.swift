@@ -25,16 +25,6 @@ public enum PointScale: String {
     case fibonacci = "fibonacci"
 }
 
-extension String {
-    func isBlank() -> Bool {
-        return self.trimmingCharacters(in: .whitespaces).isEmpty
-    }
-    
-    func isNotBlank() -> Bool {
-        return !isBlank()
-    }
-}
-
 public struct Game {
     public var gameMaster: Player
     public let pointScale: PointScale
@@ -65,9 +55,6 @@ public struct Game {
         guard activePlayer == nil else {
             throw GameError.playerAlreadyAdded
         }
-        guard player.name.isNotBlank() else {
-            throw GameError.playerNameCannotBeBlank
-        }
         players.append(player)
     }
     
@@ -82,9 +69,6 @@ public struct Game {
         }
         guard lastRound?.scoreCard != PlayingCard(faceValue: .question) else {
             throw GameError.roundMustBeScoredBeforeStartingNextRound
-        }
-        guard round.storyName.isNotBlank() else {
-            throw GameError.roundStoryNameCannotBeBlank
         }
         
         gameMaster.hand = dealPointCards()
@@ -135,7 +119,7 @@ public struct Game {
         
         lastRoundCopy.hasEnded = false
         rounds[rounds.count - 1] = lastRoundCopy
-
+        
         playerCards = []
         
         gameMaster.hand = dealPointCards()
