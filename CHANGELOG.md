@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 1.4.5: 06/03/2022
+
+## Fixed
+
+3382ac0 Deal hand of cards with active round
+
 ## Version 1.4.4: 06/03/2022
 
 ### Fixed
