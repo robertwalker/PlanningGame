@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 1.5.0: 06/07/2022
+
+### Added
+
+94a0f79 Add virtual player lobby
+
 ## Version 1.4.6: 06/07/2022
 
 ### Fixed
