@@ -55,18 +55,17 @@ final class GameTests: XCTestCase {
         XCTAssertTrue(joinedPlayer[0].hand.isEmpty)
     }
     
-    func testShouldAddAPlayerWithActiveGameRound() throws {
-        // Given
+    func testShouldAddAPlayerToLobby() throws {
+        // Given: A player joins while a round is active
         var game = makeTwoPlayerGameInRoundOne(pointScale: .linear)
         let playerThree = Player(name: "Player Three")
 
-        // When
+        // When: A new player joins
         try game.addPlayer(playerThree)
         
-        // Then
-        let joinedPlayer = game.players.filter { $0 == playerThree }
-        XCTAssertEqual(game.players.count, 3)
-        XCTAssertEqual(joinedPlayer[0].hand.count, 5)
+        // Then: The player should be added to the lobby to wait for the next round to start
+        XCTAssertEqual(game.players.count, 2)
+        XCTAssertEqual(game.lobby.count, 1)
     }
     
     func testShouldNotAddAPlayerMoreThanOnce() throws {
@@ -162,6 +161,33 @@ final class GameTests: XCTestCase {
         
         // Then
         XCTAssertThrowsError(try game.startRound(round: roundTwo))
+    }
+    
+    func testShouldMovePlayersFromLobbyWhenStartingARound() throws {
+        // Setup
+        var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
+        let playerOne = game.players[0]
+        try game.playACard(player: playerOne, card: playerOne.hand[0])
+        
+        // Given: A new player joins the game
+        let playerTwo = Player(name: "Player Two")
+        try game.addPlayer(playerTwo)
+        let scoreCard = PlayingCard(faceValue: .one)
+        let roundTwo = Round(storyName: "Story Two")
+
+        // When: The game master scores last round and start a new one
+        try game.scoreRound(card: scoreCard)
+        try game.startRound(round: roundTwo)
+        
+        // Then: The the players in the lobby should be added to players
+        XCTAssertEqual(game.players.count, 2)
+        
+        // And: The lobby should be empty
+        XCTAssertEqual(game.lobby.count, 0)
+        
+        // And: The lobby player should have a hand of cards
+        let lobbyPlayer = try XCTUnwrap(game.players.first(where: { $0 == playerTwo }))
+        XCTAssertEqual(lobbyPlayer.hand, playerHandLinear)
     }
     
     func testShouldNotStartARoundWithZeroPlayers() {

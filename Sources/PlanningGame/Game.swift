@@ -30,6 +30,7 @@ public struct Game {
     public var gameMaster: Player
     public let pointScale: PointScale
     public var players: [Player] = []
+    public var lobby: [Player] = []
     public var rounds: [Round] = []
     public var playerCards: [PlayerCard] = [] {
         didSet {
@@ -52,19 +53,17 @@ public struct Game {
     }
     
     public mutating func addPlayer(_ player: Player) throws {
-        var playerCopy = player
         let activePlayer = self.players.first { $0 == player }
         guard activePlayer == nil else {
             throw GameError.playerAlreadyAdded
         }
         
-        if let round = lastRound {
-            if !round.hasEnded {
-                playerCopy.hand = dealPlayerCards()
-            }
+        if lastRound != nil {
+            lobby.append(player)
         }
-        
-        players.append(playerCopy)
+        else {
+            players.append(player)
+        }
     }
     
     public mutating func removePlayer(_ player: Player) {
@@ -83,6 +82,7 @@ public struct Game {
             throw GameError.roundMustBeScoredBeforeStartingNextRound
         }
         
+        moveLobbyPlayers()
         gameMaster.hand = dealPointCards()
         players = players.map({ (player) -> Player in
             var playerCopy = player
@@ -157,6 +157,11 @@ public struct Game {
     }
     
     // MARK: - Private Methods
+    
+    private mutating func moveLobbyPlayers() {
+        players = players + lobby
+        lobby = []
+    }
     
     private func dealPointCards() -> [PlayingCard] {
         var hand = [
