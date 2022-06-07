@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 1.4.6: 06/07/2022
+
+### Fixed
+
+26e922c Add guard to prevent starting round with 0 players
+
 ## Version 1.4.5: 06/03/2022
 
 ## Fixed

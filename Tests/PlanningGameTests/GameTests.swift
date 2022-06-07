@@ -164,6 +164,15 @@ final class GameTests: XCTestCase {
         XCTAssertThrowsError(try game.startRound(round: roundTwo))
     }
     
+    func testShouldNotStartARoundWithZeroPlayers() {
+        // Given
+        var game = Game(gameMaster: gameMaster, pointScale: .linear)
+        let round = Round(storyName: "Story One")
+        
+        // When/Then
+        XCTAssertThrowsError(try game.startRound(round: round))
+    }
+    
     func testShouldNotStartARoundWhenLastRoundIsNotScored() throws {
         // Given
         var game = makeOnePlayerGameInRoundOne(pointScale: .linear)

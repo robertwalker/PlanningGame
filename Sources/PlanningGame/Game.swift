@@ -15,6 +15,7 @@ public enum GameError: Error {
     case playerNotFound
     case roundStoryNameCannotBeBlank
     case roundMustHaveUniqueStoryName
+    case roundCannotBeStartedWithZeroPlayers
     case roundMustBeScoredBeforeStartingNextRound
     case scoredRoundsCannotBeReplayed
 }
@@ -74,6 +75,9 @@ public struct Game {
         let possibleRound = findRound(round)
         guard possibleRound == nil else {
             throw GameError.roundMustHaveUniqueStoryName
+        }
+        guard players.count > 0 else {
+            throw GameError.roundCannotBeStartedWithZeroPlayers
         }
         guard lastRound?.scoreCard != PlayingCard(faceValue: .question) else {
             throw GameError.roundMustBeScoredBeforeStartingNextRound
