@@ -360,6 +360,30 @@ final class GameTests: XCTestCase {
         XCTAssertEqual(game.players[1].hand, playerTwoHand)
     }
     
+    func testShouldMovePlayersFromLobbyWhenReplayingARound() throws {
+        // Setup
+        var game = makeOnePlayerGameInRoundOne(pointScale: .linear)
+        let playerOne = game.players[0]
+        try game.playACard(player: playerOne, card: playerOne.hand[0])
+        
+        // Given: A new player joins the game
+        let playerTwo = Player(name: "Player Two")
+        try game.addPlayer(playerTwo)
+
+        // When: The game master replays the last round
+        try game.replayRound()
+        
+        // Then: The the players in the lobby should be added to players
+        XCTAssertEqual(game.players.count, 2)
+        
+        // And: The lobby should be empty
+        XCTAssertEqual(game.lobby.count, 0)
+        
+        // And: The lobby player should have a hand of cards
+        let lobbyPlayer = try XCTUnwrap(game.players.first(where: { $0 == playerTwo }))
+        XCTAssertEqual(lobbyPlayer.hand, playerHandLinear)
+    }
+
     func testShouldNotReplayARoundWhenThereAreNoRounds() {
         // Given: A game with no rounds
         let gameMaster = Player(name: "Game Master")
