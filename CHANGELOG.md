@@ -1,5 +1,11 @@
 # Change Log
 
+## Version 1.5.1: 06/08/2022
+
+### Fixed
+
+cddaf6e Move players from lobby when replaying a round
+
 ## Version 1.5.0: 06/07/2022
 
 ### Added
