@@ -134,6 +134,7 @@ public struct Game {
         
         playerCards = []
         
+        moveLobbyPlayers()
         gameMaster.hand = dealPointCards()
         players = players.map({ (player) -> Player in
             var playerCopy = player
